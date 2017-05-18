@@ -1,5 +1,7 @@
 package pranay.tictactoe_minmaxalgorithm;
 
+import android.util.Log;
+
 import java.util.TimerTask;
 
 /**
@@ -29,6 +31,14 @@ public class GameLoopTask extends TimerTask {
 
             case CROSS_LOSES: {
                 this.cancel();
+                try {
+                    this.wait();
+                }
+                catch(Exception e){
+                    Log.d("exception caught","dafuq do i do with this");
+                    e.printStackTrace();
+                }
+
             }break;
 
             case CROSS_WINS: {
