@@ -7,7 +7,7 @@ package pranay.tictactoe_minmaxalgorithm;
 public class TicTacToeGameBoard {
 
 
-    public enum STATE {
+    public static enum STATE {
         NOT_STARTED,
         CROSS_LOSES,
         CROSS_WINS,
@@ -16,13 +16,13 @@ public class TicTacToeGameBoard {
         RESET
     };
 
-    public enum TILE {
+    public static enum TILE {
         CROSS,
         CIRCLE,
         EMPTY
     };
 
-    public enum CURRENT_TURN{
+    public static enum CURRENT_TURN{
         CROSS,
         CIRCLE,
         NOT_STARTED
@@ -32,7 +32,7 @@ public class TicTacToeGameBoard {
 
     private TILE currentTurn = TILE.EMPTY;
 
-    private TILE[] gameBoard = new TILE[9];
+    private TILE[][] gameBoard = new TILE[3][3];
 
 
 
@@ -42,12 +42,12 @@ public class TicTacToeGameBoard {
     }
 
     public void initBoard(){
-        for(TILE tile : gameBoard){
-            tile = TILE.EMPTY;
+        for(int i = 0; i < 3; i++) {
+            for (TILE tile : gameBoard[i]) {
+                tile = TILE.EMPTY;
+            }
         }
-
         currentState = STATE.PLAYING;
-
     }
 
     public void resetGame(){
@@ -56,19 +56,53 @@ public class TicTacToeGameBoard {
 
     public STATE checkState(){
 
-        //returns if anyone wins, state stays as playing if no one wins
+        //////////////////////////////////WIN-LOSE////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        for(int i = 0; i < 3; i++){
+
+            if(gameBoard[i][0] == TILE.CROSS && gameBoard[i][1] == TILE.CROSS && gameBoard[i][2] == TILE.CROSS ){
+                return STATE.CROSS_WINS;
+            }
+
+            if(gameBoard[0][i] == TILE.CROSS && gameBoard[1][i] == TILE.CROSS && gameBoard[2][i] == TILE.CROSS ){
+                return STATE.CROSS_WINS;
+            }
+
+            if(gameBoard[i][0] == TILE.CIRCLE && gameBoard[i][1] == TILE.CIRCLE && gameBoard[i][2] == TILE.CIRCLE ){
+                return STATE.CROSS_LOSES;
+            }
+
+            if(gameBoard[0][i] == TILE.CIRCLE && gameBoard[1][i] == TILE.CIRCLE && gameBoard[2][i] == TILE.CIRCLE ){
+                return STATE.CROSS_LOSES;
+            }
+
+        }
+
+        if((gameBoard[0][0] == TILE.CROSS && gameBoard[1][1] == TILE.CROSS && gameBoard[2][2] == TILE.CROSS) || (gameBoard[0][2] == TILE.CROSS && gameBoard[1][1] == TILE.CROSS && gameBoard[2][0] == TILE.CROSS)){
+            return STATE.CROSS_WINS;
+        }
+
+        if((gameBoard[0][0] == TILE.CIRCLE && gameBoard[1][1] == TILE.CIRCLE && gameBoard[2][2] == TILE.CIRCLE) || (gameBoard[0][2] == TILE.CIRCLE && gameBoard[1][1] == TILE.CIRCLE && gameBoard[2][0] == TILE.CIRCLE)){
+            return STATE.CROSS_LOSES;
+        }
+
+        //////////////////////////////////WIN-LOSE////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
+        //////////////////////////////////DRAW////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        boolean isDraw = true;
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(gameBoard[i][j] == TILE.EMPTY){
+                    isDraw = false;
+                }
+            }
+        }
 
-        //code to check for winner
+        if(isDraw) return STATE.DRAW;
+        //////////////////////////////////DRAW////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-        //////////////////////////////////
-
+        //if none of the above cases , game is still in progress
         return STATE.PLAYING;
 
     }
