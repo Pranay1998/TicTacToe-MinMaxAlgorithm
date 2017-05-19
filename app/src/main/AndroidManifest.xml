@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".GameStart" />
+        <activity android:name=".GameBoard"></activity>
     </application>
 
 </manifest>

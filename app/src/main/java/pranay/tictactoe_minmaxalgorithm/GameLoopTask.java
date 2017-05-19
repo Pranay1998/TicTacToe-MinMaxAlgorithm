@@ -1,5 +1,6 @@
 package pranay.tictactoe_minmaxalgorithm;
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.util.TimerTask;
@@ -12,8 +13,11 @@ import java.util.TimerTask;
 
 public class GameLoopTask extends TimerTask {
 
+
     TicTacToeGameBoard.STATE replaceLater;
-    public GameLoopTask(){
+    Activity myActivity;
+
+    public GameLoopTask(Activity activity){
 
 
 
@@ -21,37 +25,44 @@ public class GameLoopTask extends TimerTask {
 
     public void run(){
 
-        switch (replaceLater) {
+        myActivity.runOnUiThread(
+            new Runnable(){
+                public void run(){
 
-            case PLAYING: {
+                    switch (replaceLater) {
+
+                        case PLAYING: {
 
 
+                        }
+                        break;
+
+                        case CROSS_LOSES: {
+                            destroyTimer();
+                            Log.d("Game Over", "CIRCLE WINS");
+                        }break;
+
+                        case CROSS_WINS: {
+                            destroyTimer();
+                            Log.d("Game Over", "CROSS WINS");
+                        }break;
+
+                        case DRAW: {
+                            destroyTimer();
+                            Log.d("Game Over", "DRAW");
+                        }break;
+
+                    }
+                    
+                }
             }
-            break;
 
-            case CROSS_LOSES: {
-                this.cancel();
-                try {
-                    this.wait();
-                }
-                catch(Exception e){
-                    Log.d("exception caught","dafuq do i do with this");
-                    e.printStackTrace();
-                }
-
-            }break;
-
-            case CROSS_WINS: {
-                this.cancel();
-            }break;
-
-            case DRAW: {
-                this.cancel();
-            }break;
-
-        }
-
-
+        );
 
     }
+    
+    public void destroyTimer(){
+        this.cancel();
+    }
+
 }
